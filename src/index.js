@@ -1,3 +1,37 @@
+import { initializeApp } from "firebase/app";
+import {
+    getFirestore, collection, getDocs
+} from "firebase/firestore";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDNHXwd0SF24bu1WmZg-JkACf-UblkP0d4",
+  authDomain: "profile-autentication.firebaseapp.com",
+  databaseURL: "https://profile-autentication-default-rtdb.firebaseio.com",
+  projectId: "profile-autentication",
+  storageBucket: "profile-autentication.appspot.com",
+  messagingSenderId: "56397108693",
+  appId: "1:56397108693:web:5aba7479226216b0ba195c",
+  measurementId: "G-NFTJPJKFTH"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
+const colRef = collection(db, "users");
+getDocs(colRef)
+    .then((snapshot) => {
+        let users = []
+        snapshot.docs.forEach((doc) => {
+            users.push({ ...doc.data(), id: doc.id })
+        })
+        /* console.log(users) */
+    })
+    .catch(err => {
+        console.log(err.message)
+    });
+
+
 const register = document.getElementById("register");
 const main = document.getElementById("main");
 const body = document.querySelector("body");
@@ -14,19 +48,9 @@ function registerForm() {
     
     setInput(form, "name", "text", "Nome:");
 
-    /* setLabel(form, "surname", "Sobrenome:") */
     setInput(form, "surname", "text", "Sobrenome:");
 };
 
-/* function setLabel(form, el, label) {
-    labelName = `label${el}`
-    labelName = document.createElement("label");
-    
-    labelName.setAttribute("for", `user_${el}`)
-
-    labelName.textContent = `${label}`;
-    form.appendChild(labelName);
-} */
 
 function setInput(form, el, type, label) {
     labelName = `label${el}`

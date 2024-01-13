@@ -15,6 +15,7 @@ import {
     updateProfile,
     signOut
 } from "firebase/auth";
+import "./style.css";
 
 
 const firebaseConfig = {

@@ -12,15 +12,17 @@
         <form class="loginForm" action="." method="post">
             <div class="email_div">
                 <label for="user_email">Email:</label>
-                <input type="email" name="email" id="user_email" placeholder="seuemail@exemplo.com">
+                <input class="loginInput" type="email" name="email" id="user_email" placeholder="seuemail@exemplo.com">
             </div>
             <div class="password_div">
                 <label for="user_password">Senha:</label>
-                <input type="password" name="password" id="user_password">
+                <input class="loginInput" type="password" name="password" id="user_password">
             </div>
-            <button type="submit">Login</button>
+            <div class="loginBtnDiv">
+                <button id="loginBtn" type="submit">Login</button>
+            </div>
         </form>
-        <div>Não tem uma conta? <button id="register" type="button">Clique aqui!</button></div>
+        <div class="regBtnDiv">Não tem uma conta? <button id="register" type="button">Clique aqui!</button></div>
     </div>
 </body>
 </html>

@@ -12,7 +12,6 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
-    updateProfile,
     signOut
 } from "firebase/auth";
 import "./style.css";
@@ -61,14 +60,17 @@ function registerForm() {
     setInput(form, "password", "password", "Senha:");
     setInput(form, "confPass", "password", "Confirmar Senha:");
 
+    const buttonDiv = document.createElement("div");
+    form.appendChild(buttonDiv);
+
     const regButton = document.createElement("button");
-    form.appendChild(regButton);
+    buttonDiv.appendChild(regButton);
     regButton.textContent = "Registrar";
 
     const cancelBtn = document.createElement("button");
     cancelBtn.setAttribute("type", "button");
     cancelBtn.textContent = "Cancelar";
-    form.appendChild(cancelBtn);
+    buttonDiv.appendChild(cancelBtn);
     cancelBtn.addEventListener("click", () => {
         regMain.remove();
         body.appendChild(main);
@@ -97,12 +99,19 @@ function registerForm() {
                     regMain.remove();
                     body.appendChild(main);
                 })
-                .catch(() => {
-                    alert("Email já está sendo utilizado.")
+                .catch((err) => {
+                    const error = err.code;
+                    switch (error) {
+                        case "auth/email-already-in-use":
+                            alert("Este email já está sendo utilizado.");
+                            break;
+                        default:
+                            alert(err.code);
+                    }
                 });
             
         }
-        else alert("Senha inválida! A senha deve ter mais que 6 caracteres.");
+        else alert("Senha inválida! Verifique se as senhas coincidem. A senha deve ter mais que 6 caracteres.");
     });
 };
 
@@ -155,7 +164,23 @@ loginForm.addEventListener("submit", (e) => {
 
     })
     .catch((err) => {
-        alert(err.message)
+        const error = err.code;
+        switch (error) {
+            case "auth/invalid-email":
+                alert("Email inválido.");
+                break;
+            case "auth/missing-password":
+                alert("Senha faltando.");
+                break;
+            case "auth/invalid-credential":
+                alert("Informações incorretas! Verifique se o email e a senha estão corretos.");
+                break;
+            case "auth/too-many-requests":
+                alert("Aguarde um momento e tente novamente.");
+                break;
+        default:
+            alert(error);
+        }
     });
 
 });

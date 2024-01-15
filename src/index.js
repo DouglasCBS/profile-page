@@ -105,13 +105,19 @@ function registerForm() {
                         case "auth/email-already-in-use":
                             alert("Este email já está sendo utilizado.");
                             break;
+                        case "auth/invalid-email":
+                            alert("Email inválido.");
+                            break;
+                        case "auth/weak-password":
+                            alert("A senha deve conter 6 ou mais caracteres.");
+                            break;
                         default:
                             alert(err.code);
                     }
                 });
             
         }
-        else alert("Senha inválida! Verifique se as senhas coincidem. A senha deve ter mais que 6 caracteres.");
+        else alert("As senhas não coincidem.");
     });
 };
 
@@ -141,13 +147,14 @@ function setInput(form, el, type, label) {
 
 function checkPassword(password, confPassword) {
     if ((password.value.length !== 0 && confPassword.value.length !== 0) && (confPassword.value !== password.value)) {
+        password.classList.add("failPass");
+        confPassword.classList.add("failPass");
         return false
     }
-    else if (confPassword.value === password.value) {
-        if (password.value.length <= 6) {
-            return false
-        }
-        else return true
+    else {
+        password.classList.remove("failPass");
+        confPassword.classList.remove("failPass");
+        return true
     }
 };
 

@@ -149,3 +149,7 @@ body {
     align-items: center;
     height: 100vh;
 }
+
+.failPass {
+    border: solid 1px red;
+}
